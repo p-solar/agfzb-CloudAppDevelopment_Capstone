@@ -1,41 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>New Account Registration - AutoRated</title>
     <meta charset="UTF-8">
     {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'djangoapp/custom.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
     <body>
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Home</a>
-                <a class="navbar-brand" href="{% url 'djangoapp:about' %}">About Us</a>
-                <a class="navbar-brand" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'djangoapp:index' %}">
+                        <span style="font-family: Poppins; font-weight: 500; letter-spacing: 2px;">AUTORATED</span>
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="btn btn-link" href="{% url 'djangoapp:index' %}">Home</a></li>
+                        <li><a class="btn btn-link" href="{% url 'djangoapp:about' %}">About Us</a></li>
+                        <li><a class="btn btn-link" href="{% url 'djangoapp:contact' %}">Contact Us</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a></li>
+                        <li><a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a></li>
+                        {% else %}
+                        <li>
+                            <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Username" name="username" >
+                                    <input type="password" class="form-control" placeholder="Password" name="psw" >
+                                    <button class="btn btn-primary" type="submit">Login</button>
+                                    <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                                </div>
+                            </form>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-
-    <!--Add a registration form here -->
-    <form action="{% url 'djangoapp:registration' %}" method="POST">
-        <div class="container lead mt-5">
-            <h1 class="text-left">Sign Up</h1>
-            <hr>
-            <div>
-                <label for="username"><b>User Name</b></label>
-                <input type="text" class="form-control" placeholder="Enter User Name: " name="username" required>
-                <label for="firstname"><b>First Name</b></label>
-                <input type="text" class="form-control" placeholder="Enter First Name: " name="firstname" required>
-                <label for="lastname"><b>Last Name</b></label>
-                <input type="text" class="form-control" placeholder="Enter Last Name: " name="lastname" required>
-                <label for="password"><b>Password</b></label>
-                <input type="password" class="form-control" placeholder="Enter Password: " name="password" required>
-            </div>
-            <div>
+        </nav>
+        <form action="{% url 'djangoapp:registration' %}" method="post">
+            <div class="container"> <!--Style root div with .container class -->
                 {% csrf_token %}
-                <button class="btn btn-primary mt-3" type="submit">Sign up</button>
+                <h1>Sign Up</h1>
+                <hr>
+                <div class="form-group">
+                    <label for="username"><b>User Name</b></label>
+                    <input type="text" class="form-control" placeholder="Enter User Name: " name="username" required> <!--Style input with .form-control class -->
+                    <label for="firstname"><b>First Name</b></label>
+                    <input type="text" class="form-control" placeholder="Enter First Name: " name="firstname" required> <!--Style input with .form-control class -->
+                    <label for="lastname"><b>Last Name</b></label>
+                    <input type="text" class="form-control" placeholder="Enter Last Name: " name="lastname" required> <!--Style input with .form-control class -->
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" class="form-control" placeholder="Enter Password: " name="psw" required> <!--Style input with .form-control class -->
+                    {% if message %}
+                    <div class="alert alert-warning">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                    <button class="btn btn-primary" type="submit">Sign up</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
     </body>
 </html>

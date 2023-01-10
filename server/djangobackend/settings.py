@@ -27,7 +27,11 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "chrischow.us-south.cf.appdomain.cloud",
+    "chrischow.mybluemix.net"
+]
 
 
 # Application definition
@@ -70,6 +74,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'djangobackend.wsgi.application'
 
@@ -125,3 +131,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
 MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [
+    'djangoapp/static/djangoapp'
+]
