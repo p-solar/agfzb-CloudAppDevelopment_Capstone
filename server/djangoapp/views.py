@@ -78,7 +78,7 @@ def registration_request(request):
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
     if request.method == "GET":
-        url = "https://56b09af2.us-south.apigw.appdomain.cloud/api/dealership"
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/9409a532-134c-4386-a75f-d35a1909b7c2/dealership-package/get-dealerships.json"
         # Get dealers from the URL
         dealerships = get_dealers_from_cf(url)
         # Concat all dealer's short name
@@ -94,10 +94,10 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id):
     if request.method == "GET":
         # Get reviews
-        url = "https://56b09af2.us-south.apigw.appdomain.cloud/api/review"
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/9409a532-134c-4386-a75f-d35a1909b7c2/dealership-package/get-reviews.json"
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
         # Get dealer ID
-        url = "https://56b09af2.us-south.apigw.appdomain.cloud/api/dealership"
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/9409a532-134c-4386-a75f-d35a1909b7c2/dealership-package/get-dealerships.json"
         dealer = get_dealer_by_id(url, dealer_id)
         # Create context
         context = {}
@@ -115,7 +115,7 @@ def add_review(request, dealer_id):
         cars = CarModel.objects.filter(dealer_id__exact=dealer_id)
         
         # Get dealer info
-        url = "https://56b09af2.us-south.apigw.appdomain.cloud/api/dealership"
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/9409a532-134c-4386-a75f-d35a1909b7c2/dealership-package/get-dealerships.json"
         dealer = get_dealer_by_id(url, dealer_id)
         
         # Prepare context
